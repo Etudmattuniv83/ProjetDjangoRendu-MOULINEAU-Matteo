@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Recipes
+{% endblock %}
+
+{% block body_content %}
+    <h1>Registration</h1>
+        <form action="">
+        {% csrf_token %}
+        <div>{{ form.username.label }}</div>
+        <div>{{ form.username }}</div>
+        <div>{{ form.email.label }}</div>
+        <div>{{ form.email }}</div>
+        <div>{{ form.password.label }}</div>
+        <div>{{ form.password }}</div>
+        <button type="submit">Create new user!</button>
+    </form>
+{% endblock %}

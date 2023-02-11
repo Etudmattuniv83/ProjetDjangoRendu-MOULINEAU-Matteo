@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Recipes
+{% endblock %}
+
+{% block body_content %}
+    <h1> Le Bon Recoin </h1>
+    <a href="{% url 'recipe_list' %}">Recipe List &raquo;</a>
+    <a href="{% url 'tag_list' %}">Tags List &raquo;</a>
+{% endblock %}
+

@@ -1,0 +1,76 @@
+from django.db.models import Q
+from django.urls import reverse
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+
+from recipes.models.recipe import Recipe
+from recipes.models.tag import Tag
+
+
+class IndexView(TemplateView):
+    template_name = 'index.html'
+
+
+class RecipeListView(ListView):
+    template_name = 'recipe_list_view.html'
+    model = Recipe
+
+
+class RecipeSearchView(ListView):
+    template_name = 'recipe_list_view.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        result = super().get_context_data(object_list=object_list, **kwargs)
+        result['description_results'] = "Search result of recipes with title '{}'".format(self.kwargs['search'])
+        return result
+
+    def get_queryset(self):
+        return Recipe.objects.filter(
+            title__icontains=self.kwargs['search']
+        )
+
+
+class RecipeSearchByIngredientView(ListView):
+    template_name = 'recipe_list_view.html'
+
+    def get_queryset(self):
+        # return Recipe.objects.filter(
+        #     ingredients_units__ingredient__name_singular__icontains=self.kwargs['search']
+        # )
+        return Recipe.objects.filter(
+            Q(ingredients_units__ingredient__name_singular__icontains=self.kwargs['search']) |
+            Q(ingredients_units__ingredient__name_plural__icontains=self.kwargs['search'])
+        )
+
+
+class RecipeDetailView(DetailView):
+    template_name = 'recipe_detail_view.html'
+    model = Recipe
+
+
+class TagListView(ListView):
+    template_name = 'tag_list_view.html'
+    model = Tag
+
+
+class TagDetailView(DetailView):
+    template_name = 'tag_detail_view.html'
+    model = Tag
+
+
+class TagCreateView(CreateView):
+    template_name = 'tag_create_view.html'
+    model = Tag
+    fields = ['text']
+
+    def get_success_url(self):
+        return reverse('tag_list')
+
+
+class TagUpdateView(UpdateView):
+    template_name = 'tag_update_view.html'
+    model = Tag
+    fields = ['text']
+
+    def get_success_url(self):
+        return reverse('tag_list')
+

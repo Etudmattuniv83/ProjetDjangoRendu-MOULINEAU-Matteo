@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+
+{% block body_content %}
+    <h1>{{ object.title }}</h1>
+    <ul>
+        {% for tag in object.tags.all %}
+            <li>{{ tag }}</li>
+        {% endfor %}
+    </ul>
+
+    <ul>
+    {# r_i_u = RecipeIngredientUnit #}
+    {% for r_i_u in object.ingredients_units.all %}
+        <li>
+        {% if r_i_u.unit_is_displayed %}
+            {{ r_i_u.value }} {{ r_i_u.unit }} {{ r_i_u.ingredient }}
+        {% else %}
+            {{ r_i_u.value }} {{ r_i_u.ingredient }}
+        {% endif %}
+        </li>
+    {% empty %}
+        (Aucun ingrédients, recette WIP)
+    {% endfor %}
+    </ul>
+{% endblock %}

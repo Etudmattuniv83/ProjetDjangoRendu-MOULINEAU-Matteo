@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>avis</title>
+</head>
+<body>
+{% for avis in avis %}
+  <h2>{{ avis.title }}</h2>
+  <p>{{ avis.body }}</p>
+  <p>Note : {{ avis.rating }} / 5</p>
+{% endfor %}
+</body>
+</html>
